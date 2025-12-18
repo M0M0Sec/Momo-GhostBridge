@@ -1,0 +1,13 @@
+[Unit]
+Description=GhostBridge Stealth Maintenance Timer
+Documentation=https://github.com/momo/ghostbridge
+
+[Timer]
+# Run every hour with random delay
+OnCalendar=hourly
+RandomizedDelaySec=300
+Persistent=false
+
+[Install]
+WantedBy=timers.target
+

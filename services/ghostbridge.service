@@ -1,0 +1,24 @@
+[Unit]
+Description=GhostBridge Main Service
+Documentation=https://github.com/momo/ghostbridge
+After=network-online.target
+Wants=network-online.target
+Before=ghostbridge-tunnel.service
+
+[Service]
+Type=oneshot
+ExecStart=/etc/ghostbridge/setup-bridge.sh
+ExecStop=/etc/ghostbridge/teardown-bridge.sh
+RemainAfterExit=yes
+
+# Security
+NoNewPrivileges=no
+ProtectSystem=false
+ProtectHome=false
+
+# Restart policy
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,17 @@
+[Unit]
+Description=GhostBridge Stealth Maintenance
+Documentation=https://github.com/momo/ghostbridge
+
+[Service]
+Type=oneshot
+ExecStart=/opt/ghostbridge/venv/bin/python -c "from ghostbridge.core.stealth import StealthManager; import asyncio; asyncio.run(StealthManager().suppress_logs())"
+
+# Minimal footprint
+Nice=19
+IOSchedulingClass=idle
+
+# Security
+NoNewPrivileges=yes
+ProtectHome=yes
+PrivateTmp=yes
+

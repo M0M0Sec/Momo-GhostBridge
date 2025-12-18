@@ -1,0 +1,29 @@
+[Unit]
+Description=GhostBridge WireGuard Tunnel
+Documentation=https://github.com/momo/ghostbridge
+After=ghostbridge.service network-online.target
+Requires=ghostbridge.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/wg-quick up wg0
+ExecStop=/usr/bin/wg-quick down wg0
+ExecReload=/bin/bash -c 'wg-quick down wg0 && wg-quick up wg0'
+
+# Auto-restart on failure
+Restart=always
+RestartSec=30
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+# Security
+NoNewPrivileges=no
+ProtectSystem=false
+
+# Watchdog
+WatchdogSec=300
+
+[Install]
+WantedBy=multi-user.target
+

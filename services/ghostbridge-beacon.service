@@ -1,0 +1,43 @@
+[Unit]
+Description=GhostBridge Beacon Service
+Documentation=https://github.com/momo/ghostbridge
+After=ghostbridge-tunnel.service
+Requires=ghostbridge-tunnel.service
+
+[Service]
+Type=simple
+ExecStart=/opt/ghostbridge/venv/bin/python -m ghostbridge.c2.beacon
+WorkingDirectory=/opt/ghostbridge
+
+# Auto-restart
+Restart=always
+RestartSec=60
+StartLimitIntervalSec=600
+StartLimitBurst=10
+
+# Environment
+Environment=PYTHONUNBUFFERED=1
+Environment=GHOSTBRIDGE_CONFIG=/etc/ghostbridge/config.yml
+
+# Logging (to journal only, not disk)
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits
+MemoryMax=128M
+CPUQuota=25%
+
+# Security
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadOnlyPaths=/
+ReadWritePaths=/var/ghostbridge /tmp
+
+# Watchdog
+WatchdogSec=600
+
+[Install]
+WantedBy=multi-user.target
+
