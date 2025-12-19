@@ -16,14 +16,13 @@ import signal
 import sys
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
 
 from ghostbridge import __version__
-from ghostbridge.core.config import GhostBridgeConfig
-from ghostbridge.core.bridge import BridgeManager
-from ghostbridge.core.tunnel import TunnelManager, ConnectionState
-from ghostbridge.core.stealth import StealthManager, StealthLevel
 from ghostbridge.c2.beacon import BeaconService
+from ghostbridge.core.bridge import BridgeManager
+from ghostbridge.core.config import GhostBridgeConfig
+from ghostbridge.core.stealth import StealthManager
+from ghostbridge.core.tunnel import TunnelManager
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +38,7 @@ class GhostBridgeStatus:
     tunnel_connected: bool
     beacon_running: bool
     stealth_level: str
-    last_beacon: Optional[datetime]
+    last_beacon: datetime | None
 
 
 class GhostBridge:
@@ -49,7 +48,7 @@ class GhostBridge:
     Orchestrates all components for a complete implant deployment.
     """
 
-    def __init__(self, config: Optional[GhostBridgeConfig] = None):
+    def __init__(self, config: GhostBridgeConfig | None = None):
         """
         Initialize GhostBridge.
 
@@ -68,7 +67,7 @@ class GhostBridge:
             fake_identity=self.config.stealth.fake_identity,
             panic_on_tamper=self.config.stealth.panic_on_tamper,
         )
-        self._beacon: Optional[BeaconService] = None
+        self._beacon: BeaconService | None = None
 
         # Register panic callbacks
         self._stealth.register_panic_callback(self._on_panic)

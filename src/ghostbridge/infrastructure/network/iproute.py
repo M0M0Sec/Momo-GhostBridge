@@ -15,7 +15,6 @@ import re
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -466,7 +465,7 @@ class IPRoute:
 
         try:
             return carrier_path.read_text().strip() == "1"
-        except (IOError, OSError):
+        except OSError:
             return False
 
     async def wait_for_carrier(

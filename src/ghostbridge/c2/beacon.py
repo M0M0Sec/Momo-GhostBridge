@@ -10,12 +10,12 @@ import asyncio
 import logging
 import os
 import random
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Callable, Optional
 
 from ghostbridge.c2.client import Command, CommandResponse, MoMoClient, MoMoClientError
-from ghostbridge.core.config import BeaconConfig, GhostBridgeConfig
+from ghostbridge.core.config import GhostBridgeConfig
 
 logger = logging.getLogger(__name__)
 
@@ -27,9 +27,9 @@ class BeaconStats:
     total_beacons: int = 0
     successful_beacons: int = 0
     failed_beacons: int = 0
-    last_beacon_time: Optional[datetime] = None
-    last_success_time: Optional[datetime] = None
-    last_error: Optional[str] = None
+    last_beacon_time: datetime | None = None
+    last_success_time: datetime | None = None
+    last_error: str | None = None
     commands_received: int = 0
     commands_executed: int = 0
 
@@ -43,7 +43,7 @@ class SystemInfo:
     cpu_percent: float = 0
     memory_free_mb: int = 0
     disk_free_mb: int = 0
-    cpu_temp: Optional[float] = None
+    cpu_temp: float | None = None
     load_avg: tuple[float, float, float] = (0, 0, 0)
 
 
@@ -64,7 +64,7 @@ class BeaconService:
     def __init__(
         self,
         config: GhostBridgeConfig,
-        client: Optional[MoMoClient] = None,
+        client: MoMoClient | None = None,
     ):
         """
         Initialize BeaconService.
@@ -84,7 +84,7 @@ class BeaconService:
         self._beacon_config = config.beacon
         self._stats = BeaconStats()
         self._running = False
-        self._task: Optional[asyncio.Task] = None
+        self._task: asyncio.Task | None = None
         self._shutdown_event = asyncio.Event()
         self._start_time = datetime.now()
 
@@ -93,8 +93,8 @@ class BeaconService:
         self._register_default_handlers()
 
         # External state providers
-        self._tunnel_status_provider: Optional[Callable[[], str]] = None
-        self._network_info_provider: Optional[Callable[[], dict]] = None
+        self._tunnel_status_provider: Callable[[], str] | None = None
+        self._network_info_provider: Callable[[], dict] | None = None
 
     @property
     def stats(self) -> BeaconStats:
@@ -406,7 +406,7 @@ class BeaconService:
                             timeout=interval,
                         )
                         break  # Shutdown requested
-                    except asyncio.TimeoutError:
+                    except TimeoutError:
                         pass  # Normal timeout, send beacon
 
                     if not self._shutdown_event.is_set():

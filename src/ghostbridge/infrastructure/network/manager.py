@@ -8,11 +8,11 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
-from typing import Callable
 
-from ghostbridge.infrastructure.network.iproute import IPRoute, InterfaceInfo, IPRouteError
+from ghostbridge.infrastructure.network.iproute import IPRoute, IPRouteError
 
 logger = logging.getLogger(__name__)
 

@@ -10,7 +10,6 @@ import secrets
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
 
 @dataclass
@@ -21,7 +20,7 @@ class WireGuardPeer:
     endpoint: str  # host:port
     allowed_ips: list[str] = field(default_factory=lambda: ["0.0.0.0/0"])
     persistent_keepalive: int = 25
-    preshared_key: Optional[str] = None
+    preshared_key: str | None = None
 
     def to_config(self) -> str:
         """Generate peer configuration block."""
@@ -48,8 +47,8 @@ class WireGuardConfig:
     interface: str = "wg0"
     private_key: str = ""
     address: str = "10.66.66.2/24"
-    listen_port: Optional[int] = None
-    dns: Optional[str] = None
+    listen_port: int | None = None
+    dns: str | None = None
     mtu: int = 1420
     peers: list[WireGuardPeer] = field(default_factory=list)
 
@@ -119,7 +118,7 @@ class WireGuardConfig:
         self,
         public_key: str,
         endpoint: str,
-        allowed_ips: Optional[list[str]] = None,
+        allowed_ips: list[str] | None = None,
         keepalive: int = 25,
     ) -> None:
         """
@@ -168,7 +167,7 @@ class WireGuardConfig:
 
         return "\n".join(lines)
 
-    def save(self, path: Optional[Path] = None) -> Path:
+    def save(self, path: Path | None = None) -> Path:
         """
         Save configuration to file.
 

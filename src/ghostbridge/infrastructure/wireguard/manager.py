@@ -12,8 +12,6 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from pathlib import Path
-from typing import Optional
 
 from ghostbridge.infrastructure.wireguard.config import WireGuardConfig
 
@@ -37,9 +35,9 @@ class TunnelStatus:
     interface: str
     state: TunnelState
     public_key: str
-    listen_port: Optional[int]
+    listen_port: int | None
     peers: list[PeerStatus]
-    last_error: Optional[str] = None
+    last_error: str | None = None
 
     @property
     def is_connected(self) -> bool:
@@ -54,9 +52,9 @@ class PeerStatus:
     """WireGuard peer status."""
 
     public_key: str
-    endpoint: Optional[str]
+    endpoint: str | None
     allowed_ips: list[str]
-    latest_handshake: Optional[datetime]
+    latest_handshake: datetime | None
     transfer_rx: int  # bytes
     transfer_tx: int  # bytes
 
@@ -66,7 +64,7 @@ class PeerStatus:
         return self.latest_handshake is not None
 
     @property
-    def handshake_age_seconds(self) -> Optional[float]:
+    def handshake_age_seconds(self) -> float | None:
         """Get seconds since last handshake."""
         if not self.latest_handshake:
             return None
@@ -105,7 +103,7 @@ class WireGuardManager:
         self.sudo = sudo
         self._sudo_prefix = ["sudo"] if sudo else []
         self._state = TunnelState.DISCONNECTED
-        self._last_error: Optional[str] = None
+        self._last_error: str | None = None
 
     @property
     def interface(self) -> str:
@@ -117,7 +115,7 @@ class WireGuardManager:
         """Get current tunnel state."""
         return self._state
 
-    def _set_state(self, state: TunnelState, error: Optional[str] = None) -> None:
+    def _set_state(self, state: TunnelState, error: str | None = None) -> None:
         """Update tunnel state."""
         old_state = self._state
         self._state = state
@@ -326,7 +324,7 @@ class WireGuardManager:
             transfer_tx=data.get("transfer_tx", 0),
         )
 
-    def _parse_handshake(self, hs_str: str) -> Optional[datetime]:
+    def _parse_handshake(self, hs_str: str) -> datetime | None:
         """Parse handshake time string."""
         if "never" in hs_str.lower():
             return None
@@ -424,7 +422,7 @@ class WireGuardManager:
         except WireGuardError:
             return False
 
-    async def get_handshake_age(self) -> Optional[float]:
+    async def get_handshake_age(self) -> float | None:
         """
         Get age of last handshake in seconds.
 

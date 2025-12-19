@@ -12,7 +12,7 @@ import os
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from ghostbridge.c2.client import Command, CommandResponse
 
@@ -26,8 +26,8 @@ class CommandContext:
     device_id: str
     config_dir: Path
     data_dir: Path
-    bridge_manager: Optional[Any] = None
-    tunnel_manager: Optional[Any] = None
+    bridge_manager: Any | None = None
+    tunnel_manager: Any | None = None
 
 
 class CommandExecutor:
@@ -271,7 +271,7 @@ class CommandExecutor:
         wiped = 0
         for path in paths:
             try:
-                for root, dirs, files in os.walk(path):
+                for root, _dirs, files in os.walk(path):
                     for f in files:
                         try:
                             os.remove(os.path.join(root, f))

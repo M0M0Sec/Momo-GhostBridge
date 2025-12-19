@@ -10,11 +10,11 @@ from __future__ import annotations
 import asyncio
 import logging
 import signal
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from typing import AsyncIterator
 
 from ghostbridge.core.config import GhostBridgeConfig
 from ghostbridge.infrastructure.network.manager import (
@@ -190,7 +190,6 @@ class BridgeManager:
 
     async def _read_interface_stats(self) -> dict[str, int]:
         """Read interface statistics from sysfs."""
-        import aiofiles
         from pathlib import Path
 
         stats = {}

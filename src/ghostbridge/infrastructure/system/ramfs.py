@@ -8,10 +8,8 @@ from __future__ import annotations
 
 import asyncio
 import logging
-import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -164,7 +162,7 @@ class RAMDiskManager:
         except Exception:
             return False
 
-    async def get_mount_info(self, path: str) -> Optional[MountInfo]:
+    async def get_mount_info(self, path: str) -> MountInfo | None:
         """
         Get mount point information.
 
@@ -208,7 +206,7 @@ class RAMDiskManager:
             logger.error(f"Failed to get mount info: {e}")
             return None
 
-    async def get_usage_percent(self, path: str) -> Optional[int]:
+    async def get_usage_percent(self, path: str) -> int | None:
         """
         Get usage percentage of mount.
 

@@ -8,8 +8,8 @@ System-level integrations including:
 """
 
 from ghostbridge.infrastructure.network import NetworkManager
-from ghostbridge.infrastructure.wireguard import WireGuardManager, WireGuardConfig
 from ghostbridge.infrastructure.system import RAMDiskManager, SecureWiper
+from ghostbridge.infrastructure.wireguard import WireGuardConfig, WireGuardManager
 
 __all__ = [
     "NetworkManager",

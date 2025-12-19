@@ -9,15 +9,14 @@ from __future__ import annotations
 import asyncio
 import logging
 import random
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Callable, Optional
 
 from ghostbridge.core.config import GhostBridgeConfig, TunnelConfig
 from ghostbridge.infrastructure.wireguard.config import WireGuardConfig
 from ghostbridge.infrastructure.wireguard.manager import (
-    TunnelState,
     TunnelStatus,
     WireGuardManager,
 )
@@ -40,13 +39,13 @@ class ConnectionState(Enum):
 class ConnectionStats:
     """Connection statistics."""
 
-    connect_time: Optional[datetime] = None
-    disconnect_time: Optional[datetime] = None
+    connect_time: datetime | None = None
+    disconnect_time: datetime | None = None
     total_connects: int = 0
     total_disconnects: int = 0
     total_bytes_rx: int = 0
     total_bytes_tx: int = 0
-    last_handshake: Optional[datetime] = None
+    last_handshake: datetime | None = None
     reconnect_attempts: int = 0
 
     @property
@@ -110,7 +109,7 @@ class TunnelManager:
     def __init__(
         self,
         config: GhostBridgeConfig,
-        reconnect_policy: Optional[ReconnectPolicy] = None,
+        reconnect_policy: ReconnectPolicy | None = None,
     ):
         """
         Initialize TunnelManager.
@@ -130,10 +129,10 @@ class TunnelManager:
 
         self._state = ConnectionState.IDLE
         self._stats = ConnectionStats()
-        self._monitor_task: Optional[asyncio.Task] = None
-        self._reconnect_task: Optional[asyncio.Task] = None
+        self._monitor_task: asyncio.Task | None = None
+        self._reconnect_task: asyncio.Task | None = None
         self._shutdown_event = asyncio.Event()
-        self._on_state_change: Optional[Callable[[ConnectionState], None]] = None
+        self._on_state_change: Callable[[ConnectionState], None] | None = None
 
     def _build_wg_config(self, tunnel_config: TunnelConfig) -> WireGuardConfig:
         """Build WireGuard config from tunnel config."""
@@ -145,7 +144,7 @@ class TunnelManager:
         # Add C2 peer if endpoint is configured
         if tunnel_config.endpoint:
             # Parse endpoint to extract host:port
-            parts = tunnel_config.endpoint.rsplit(":", 1)
+            tunnel_config.endpoint.rsplit(":", 1)
             endpoint = tunnel_config.endpoint
 
             wg.add_peer(
@@ -350,7 +349,7 @@ class TunnelManager:
             return
 
         async def monitor_loop() -> None:
-            stable_since: Optional[datetime] = None
+            stable_since: datetime | None = None
 
             while not self._shutdown_event.is_set():
                 try:

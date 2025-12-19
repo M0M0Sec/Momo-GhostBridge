@@ -17,11 +17,11 @@ import os
 import random
 import shutil
 import subprocess
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ class StealthStatus:
     ram_only: bool
     logs_suppressed: bool
     fake_identity_active: bool
-    last_threat_check: Optional[datetime]
+    last_threat_check: datetime | None
     anomalies_detected: int
 
 
@@ -112,9 +112,9 @@ class StealthManager:
         self._threat_level = ThreatLevel.NONE
         self._logs_suppressed = False
         self._anomalies = 0
-        self._last_check: Optional[datetime] = None
+        self._last_check: datetime | None = None
         self._panic_callbacks: list[Callable[[], None]] = []
-        self._monitor_task: Optional[asyncio.Task] = None
+        self._monitor_task: asyncio.Task | None = None
 
     @property
     def level(self) -> StealthLevel:
@@ -413,7 +413,7 @@ class StealthManager:
 
         return identities.get(self.fake_identity, identities["Netgear GS105"])
 
-    async def respond_to_probe(self, probe_type: str) -> Optional[bytes]:
+    async def respond_to_probe(self, probe_type: str) -> bytes | None:
         """
         Generate fake response to network probe.
 

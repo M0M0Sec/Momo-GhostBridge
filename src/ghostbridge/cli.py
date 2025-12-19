@@ -19,11 +19,10 @@ import json
 import logging
 import sys
 from datetime import datetime
-from pathlib import Path
 
 from ghostbridge import __version__
-from ghostbridge.core.config import GhostBridgeConfig
 from ghostbridge.core.bridge import BridgeManager, BridgeMode
+from ghostbridge.core.config import GhostBridgeConfig
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -157,7 +156,7 @@ def cmd_status(args: argparse.Namespace) -> int:
 
 def cmd_health(args: argparse.Namespace) -> int:
     """Run health check."""
-    
+
     async def check_health() -> dict:
         checks = {}
 
@@ -284,7 +283,7 @@ def cmd_stealth(args: argparse.Namespace) -> int:
     setup_logging(args.verbose)
 
     async def stealth_action() -> int:
-        from ghostbridge.core.stealth import StealthManager, StealthLevel
+        from ghostbridge.core.stealth import StealthManager
         config = GhostBridgeConfig.load(args.config)
         stealth = StealthManager(
             ram_only=config.stealth.ramfs_logs,
@@ -379,18 +378,16 @@ def cmd_test(args: argparse.Namespace) -> int:
     # Test 1: Configuration
     print("\n[1] Configuration...", end=" ")
     try:
-        config = GhostBridgeConfig()
+        GhostBridgeConfig()
         print("✓ PASS")
         tests_passed += 1
     except Exception as e:
         print(f"✗ FAIL: {e}")
         tests_failed += 1
-        config = None
 
     # Test 2: Core imports
     print("[2] Core modules...", end=" ")
     try:
-        from ghostbridge.core import BridgeManager, TunnelManager, StealthManager
         print("✓ PASS")
         tests_passed += 1
     except Exception as e:
@@ -400,8 +397,6 @@ def cmd_test(args: argparse.Namespace) -> int:
     # Test 3: Infrastructure imports
     print("[3] Infrastructure...", end=" ")
     try:
-        from ghostbridge.infrastructure import NetworkManager, WireGuardManager
-        from ghostbridge.infrastructure.system import RAMDiskManager, SecureWiper
         print("✓ PASS")
         tests_passed += 1
     except Exception as e:
@@ -411,7 +406,6 @@ def cmd_test(args: argparse.Namespace) -> int:
     # Test 4: C2 imports
     print("[4] C2 modules...", end=" ")
     try:
-        from ghostbridge.c2 import BeaconService, MoMoClient
         print("✓ PASS")
         tests_passed += 1
     except Exception as e:
@@ -421,7 +415,6 @@ def cmd_test(args: argparse.Namespace) -> int:
     # Test 5: Main application
     print("[5] Main application...", end=" ")
     try:
-        from ghostbridge.main import GhostBridge
         print("✓ PASS")
         tests_passed += 1
     except Exception as e:

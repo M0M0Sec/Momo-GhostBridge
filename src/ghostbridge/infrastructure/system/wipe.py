@@ -10,10 +10,10 @@ import asyncio
 import logging
 import os
 import secrets
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Callable, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ class WipeResult:
     success: bool
     bytes_wiped: int
     passes: int
-    error: Optional[str] = None
+    error: str | None = None
 
 
 class SecureWiper:
@@ -83,7 +83,7 @@ class SecureWiper:
         self.verify = verify
         self.block_size = block_size
 
-    def _get_patterns(self, method: WipeMethod) -> list[Optional[bytes]]:
+    def _get_patterns(self, method: WipeMethod) -> list[bytes | None]:
         """Get wipe patterns for method."""
         if method == WipeMethod.ZEROS:
             return [b"\x00"]
@@ -97,7 +97,7 @@ class SecureWiper:
             return self.DOD_ECE_PATTERNS
         elif method == WipeMethod.GUTMANN:
             # Simplified Gutmann (35 passes with various patterns)
-            patterns: list[Optional[bytes]] = []
+            patterns: list[bytes | None] = []
             for _ in range(4):
                 patterns.append(None)  # Random
             for i in range(27):
@@ -111,8 +111,8 @@ class SecureWiper:
     async def wipe_file(
         self,
         path: Path,
-        method: Optional[WipeMethod] = None,
-        progress_callback: Optional[Callable[[int, int], None]] = None,
+        method: WipeMethod | None = None,
+        progress_callback: Callable[[int, int], None] | None = None,
     ) -> WipeResult:
         """
         Securely wipe a file.
@@ -238,7 +238,7 @@ class SecureWiper:
     async def wipe_directory(
         self,
         path: Path,
-        method: Optional[WipeMethod] = None,
+        method: WipeMethod | None = None,
         recursive: bool = True,
     ) -> list[WipeResult]:
         """

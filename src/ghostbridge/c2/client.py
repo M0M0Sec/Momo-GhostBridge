@@ -9,7 +9,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 import httpx
 
@@ -43,7 +43,7 @@ class CommandResponse:
     command_id: str
     status: str  # "success", "error", "pending"
     result: Any
-    error: Optional[str] = None
+    error: str | None = None
 
     def to_dict(self) -> dict:
         """Convert to dictionary for API."""
@@ -97,7 +97,7 @@ class MoMoClient:
         self.timeout = timeout
         self.verify_ssl = verify_ssl
 
-        self._client: Optional[httpx.AsyncClient] = None
+        self._client: httpx.AsyncClient | None = None
 
     async def __aenter__(self) -> MoMoClient:
         """Async context manager entry."""
@@ -131,7 +131,7 @@ class MoMoClient:
         self,
         method: str,
         endpoint: str,
-        json: Optional[dict] = None,
+        json: dict | None = None,
         **kwargs: Any,
     ) -> dict:
         """
@@ -162,7 +162,7 @@ class MoMoClient:
         except httpx.RequestError as e:
             raise MoMoClientError(f"Request failed: {e}")
 
-    async def register(self, name: str, metadata: Optional[dict] = None) -> dict:
+    async def register(self, name: str, metadata: dict | None = None) -> dict:
         """
         Register device with C2.
 
@@ -189,8 +189,8 @@ class MoMoClient:
         status: str = "active",
         tunnel_status: str = "connected",
         uptime: float = 0,
-        network_info: Optional[dict] = None,
-        system_info: Optional[dict] = None,
+        network_info: dict | None = None,
+        system_info: dict | None = None,
     ) -> dict:
         """
         Send heartbeat beacon to C2.
@@ -262,8 +262,8 @@ class MoMoClient:
         self,
         data_type: str,
         content: bytes,
-        filename: Optional[str] = None,
-        metadata: Optional[dict] = None,
+        filename: str | None = None,
+        metadata: dict | None = None,
     ) -> dict:
         """
         Upload data/file to C2.
