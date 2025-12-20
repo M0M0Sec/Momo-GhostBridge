@@ -14,6 +14,12 @@
   Invisible Bridge • Reverse VPN • Remote Access • Long-term Persistence
 </p>
 
+<p align="center">
+  <a href="https://github.com/Momo-Master/MoMo">MoMo</a> •
+  <a href="https://github.com/Momo-Master/MoMo-Nexus">Nexus</a> •
+  <a href="https://github.com/Momo-Master/MoMo-Mimic">Mimic</a>
+</p>
+
 ---
 
 ## 🎯 What is GhostBridge?
@@ -238,8 +244,8 @@ PersistentKeepalive = 25
 ### Quick Start (Development)
 ```bash
 # Clone repository
-git clone https://github.com/your-org/ghostbridge.git
-cd ghostbridge
+git clone https://github.com/Momo-Master/Momo-GhostBridge.git
+cd Momo-GhostBridge
 
 # Create virtual environment
 python3 -m venv .venv
@@ -379,6 +385,19 @@ ghostbridge/
 
 ---
 
+## 🌐 MoMo Ecosystem
+
+GhostBridge integrates seamlessly with the MoMo ecosystem for centralized management.
+
+| Project | Description | Platform | Status |
+|---------|-------------|----------|--------|
+| **[MoMo](https://github.com/Momo-Master/MoMo)** | WiFi/BLE/SDR Audit Platform | Pi 5 | ✅ v1.5.2 |
+| **[MoMo-Nexus](https://github.com/Momo-Master/MoMo-Nexus)** | Central Communication Hub | Pi 4 | ✅ v1.0.0 |
+| **[MoMo-GhostBridge](https://github.com/Momo-Master/Momo-GhostBridge)** | Network Implant | NanoPi R2S | ✅ v0.5.0 |
+| **[MoMo-Mimic](https://github.com/Momo-Master/MoMo-Mimic)** | USB Attack Platform | Pi Zero 2W | ✅ v1.0.0 |
+
+---
+
 ## ⚠️ Legal Disclaimer
 
 **GhostBridge is designed for authorized Red Team operations and security research only.**
@@ -392,12 +411,19 @@ ghostbridge/
 
 ## 📜 License
 
-This project is part of the MoMo platform and is licensed under the **MIT License**.
+This project is part of the MoMo ecosystem and is licensed under the **MIT License**.
 
 ---
 
 <p align="center">
-  <strong>Part of the 🔥 MoMo Platform</strong><br>
+  <strong>Part of the 🔥 MoMo Ecosystem</strong><br>
   <sub>Offensive Security Toolkit for Red Teams</sub>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Momo-Master/MoMo">MoMo</a> •
+  <a href="https://github.com/Momo-Master/MoMo-Nexus">Nexus</a> •
+  <a href="https://github.com/Momo-Master/Momo-GhostBridge">GhostBridge</a> •
+  <a href="https://github.com/Momo-Master/MoMo-Mimic">Mimic</a>
 </p>
 
