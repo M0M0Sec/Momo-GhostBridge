@@ -1,28 +1,21 @@
 # ⚔️ GhostBridge Operations Guide
 
-> **Version:** 0.1.0 | **Classification:** Red Team Internal
+> **Version:** 0.6.0 | **Classification:** Red Team Internal
 
 ---
 
 ## ⚠️ OPERATIONAL SECURITY WARNING
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    ⚠️  OPSEC CRITICAL  ⚠️                        │
-│                                                                  │
-│  This device is designed for covert operations.                 │
-│  Follow ALL OPSEC guidelines to avoid detection.                │
-│                                                                  │
-│  Failure to follow procedures may result in:                    │
-│  • Device discovery and seizure                                 │
-│  • Compromise of operation                                      │
-│  • Legal consequences                                           │
-│  • Attribution to your organization                             │
-│                                                                  │
-│  ALWAYS operate under proper authorization!                     │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
+| ⚠️ OPSEC CRITICAL |
+|-------------------|
+| This device is designed for covert operations. |
+| Follow ALL OPSEC guidelines to avoid detection. |
+| **Failure to follow procedures may result in:** |
+| • Device discovery and seizure |
+| • Compromise of operation |
+| • Legal consequences |
+| • Attribution to your organization |
+| **ALWAYS operate under proper authorization!** |
 
 ---
 
@@ -39,6 +32,7 @@
 - [ ] Fresh SD card (new, not reused)
 - [ ] Unique device ID configured
 - [ ] WireGuard keys generated
+- [ ] DNS tunnel domain configured (v0.6.0)
 - [ ] C2 endpoint configured
 - [ ] Beacon interval set
 - [ ] Panic trigger configured
@@ -47,6 +41,7 @@
 - [ ] VPS provisioned (clean)
 - [ ] WireGuard server configured
 - [ ] Domain purchased (burn domain)
+- [ ] DNS tunnel nameserver ready (v0.6.0)
 - [ ] DNS configured
 - [ ] MoMo server running
 - [ ] Monitoring active
@@ -65,37 +60,13 @@
 
 **Target:** Network printer in common area
 
-**Approach:**
-```
-1. Reconnaissance
-   - Identify printer location
-   - Note cable routing
-   - Check power sources
-   - Time guard patrols
-
-2. Access
-   - Enter as IT support / cleaner / delivery
-   - Carry legitimate-looking equipment
-   - Have cover story ready
-
-3. Installation
-   - Locate printer network cable
-   - Trace to wall port
-   - Insert GhostBridge inline
-   - Power from printer USB
-   - Conceal device
-
-4. Verification
-   - Check C2 connection (via phone)
-   - Verify bridge traffic
-   - Ensure printer still works
-   - Exit normally
-
-5. Exfiltration
-   - Document entry/exit times
-   - Note any witnesses
-   - Clear phone logs
-```
+| Phase | Actions |
+|-------|---------|
+| **Reconnaissance** | Identify printer location, note cable routing, check power sources, time guard patrols |
+| **Access** | Enter as IT support / cleaner / delivery, carry legitimate equipment, have cover story |
+| **Installation** | Locate printer network cable, insert GhostBridge inline, power from printer USB, conceal |
+| **Verification** | Check C2 connection via phone, verify bridge traffic, ensure printer still works |
+| **Exfiltration** | Document entry/exit times, note witnesses, clear phone logs |
 
 **Concealment Tips:**
 - Place behind printer
@@ -109,35 +80,13 @@
 
 **Target:** AV equipment in meeting room
 
-**Approach:**
-```
-1. Reconnaissance
-   - Book meeting room (if possible)
-   - Identify network ports
-   - Note AV equipment
-   - Check under tables
-
-2. Access
-   - Enter during off-hours
-   - Or book legitimate meeting
-   - Bring laptop/equipment
-
-3. Installation
-   - Find TV/projector network cable
-   - Install inline to wall port
-   - Power from AV equipment
-   - Hide behind equipment
-
-4. Verification
-   - Confirm C2 connection
-   - Test AV still works
-   - Leave room normal
-
-5. Persistence
-   - Room often unused nights
-   - Low traffic area
-   - Difficult to spot
-```
+| Phase | Actions |
+|-------|---------|
+| **Reconnaissance** | Book meeting room if possible, identify network ports, note AV equipment |
+| **Access** | Enter during off-hours or book legitimate meeting, bring laptop/equipment |
+| **Installation** | Find TV/projector network cable, install inline to wall port, hide behind equipment |
+| **Verification** | Confirm C2 connection, test AV still works, leave room normally |
+| **Persistence** | Room often unused nights, low traffic area, difficult to spot |
 
 **VLAN Bonus:**
 - Meeting rooms often on executive VLAN
@@ -150,43 +99,18 @@
 
 **Target:** Executive workstation
 
-**Approach:**
-```
-1. Reconnaissance
-   - Identify target executive
-   - Map office layout
-   - Note desk setup
-   - Check cable routing
-
-2. Access (HIGH RISK)
-   - Requires physical access
-   - Off-hours preferred
-   - May need social engineering
-   - Badge cloning helpful
-
-3. Installation
-   - Find docking station cable
-   - Install between wall and dock
-   - Clone docking station MAC
-   - Hide under desk
-
-4. Concealment
-   - Use cable ties
-   - Match existing cables
-   - Add dust for aging
-   - Avoid visible lights
-
-5. Verification
-   - Quick C2 check
-   - Exit immediately
-   - Verify remotely later
-```
+| Phase | Actions |
+|-------|---------|
+| **Reconnaissance** | Identify target executive, map office layout, note desk setup |
+| **Access (HIGH RISK)** | Requires physical access, off-hours preferred, badge cloning helpful |
+| **Installation** | Find docking station cable, install between wall and dock, clone MAC |
+| **Concealment** | Use cable ties, match existing cables, add dust for aging, avoid visible lights |
+| **Verification** | Quick C2 check, exit immediately, verify remotely later |
 
 **High Value:**
 - Executive network segment
 - Often less restricted
 - Sensitive communications
-- High-value targets
 
 ---
 
@@ -194,8 +118,8 @@
 
 ### Before Deployment
 
-| Do | Don't |
-|-----|-------|
+| ✅ Do | ❌ Don't |
+|-------|---------|
 | Use burner phone for checks | Use personal phone |
 | Wear gloves when handling | Leave fingerprints |
 | Wipe device externally | Leave packaging |
@@ -204,8 +128,8 @@
 
 ### During Deployment
 
-| Do | Don't |
-|-----|-------|
+| ✅ Do | ❌ Don't |
+|-------|---------|
 | Have cover story ready | Act suspicious |
 | Move with purpose | Hesitate or look around |
 | Dress appropriately | Stand out |
@@ -214,8 +138,8 @@
 
 ### After Deployment
 
-| Do | Don't |
-|-----|-------|
+| ✅ Do | ❌ Don't |
+|-------|---------|
 | Verify C2 remotely | Return unnecessarily |
 | Monitor beacon health | Ignore offline alerts |
 | Log all activity | Leave gaps in records |
@@ -227,44 +151,35 @@
 ## 📡 Communication Security
 
 ### C2 Domain Selection
-```
-Good:                           Bad:
-cdn-assets-prod.com            hacker-c2.com
-cloud-sync-api.net             malware-server.xyz
-update-service.io              totally-legit-domain.tk
-static-content-delivery.com    ghostbridge-c2.org
-```
+
+| ✅ Good | ❌ Bad |
+|---------|--------|
+| cdn-assets-prod.com | hacker-c2.com |
+| cloud-sync-api.net | malware-server.xyz |
+| update-service.io | totally-legit-domain.tk |
+| static-content-delivery.com | ghostbridge-c2.org |
 
 ### Traffic Patterns
-```
-Good:                           Bad:
-• Random intervals (jitter)    • Exact 5-minute beacons
-• Variable payload sizes       • Fixed size packets
-• HTTPS on 443                 • Unusual ports
-• Normal working hours         • 3 AM activity spikes
-• Gradual ramp-up              • Immediate full speed
-```
 
-### Fallback Procedures
-```
-1. Primary tunnel fails
-   → Wait 5 minutes
-   → Try TCP 443
+| ✅ Good | ❌ Bad |
+|---------|--------|
+| Random intervals (jitter) | Exact 5-minute beacons |
+| Variable payload sizes | Fixed size packets |
+| HTTPS on 443 | Unusual ports |
+| Normal working hours | 3 AM activity spikes |
+| Gradual ramp-up | Immediate full speed |
 
-2. TCP fails
-   → Try WebSocket wrapper
-   → Use Cloudflare Tunnel
+### Fallback Chain (v0.6.0)
 
-3. All tunnels fail
-   → Enter hibernate mode
-   → Beacon daily via DNS
-   → Wait for network restore
+| Priority | Method | Timeout | Action |
+|----------|--------|---------|--------|
+| 1 | WireGuard UDP | 30s | Primary tunnel |
+| 2 | WireGuard TCP 443 | 30s | Firewall bypass |
+| 3 | DNS Tunnel | - | VPN blocked (NEW) |
+| 4 | Hibernate | 7 days | Beacon via DNS |
+| 5 | Lost | - | Consider device burned |
 
-4. No connection 7 days
-   → Consider device burned
-   → Do NOT attempt retrieval
-   → Remote wipe if possible
-```
+**Note:** DNS tunneling (v0.6.0) provides covert C2 when all VPN options fail.
 
 ---
 
@@ -272,69 +187,27 @@ Good:                           Bad:
 
 ### Device Discovery
 
-```
-IF device is discovered:
-
-1. IMMEDIATE (within minutes)
-   □ Notify team lead
-   □ Document timeline
-   □ Assess exposure level
-
-2. SHORT-TERM (within hours)
-   □ Issue panic command
-   □ Rotate C2 infrastructure
-   □ Check other devices
-   □ Review logs for attribution
-
-3. LONG-TERM (within days)
-   □ Incident report
-   □ Lessons learned
-   □ Update procedures
-   □ Client notification (if required)
-```
+| Timeframe | Actions |
+|-----------|---------|
+| **Immediate** (minutes) | Notify team lead, document timeline, assess exposure level |
+| **Short-term** (hours) | Issue panic command, rotate C2 infrastructure, check other devices |
+| **Long-term** (days) | Incident report, lessons learned, update procedures, client notification |
 
 ### C2 Compromise
 
-```
-IF C2 server is compromised:
-
-1. IMMEDIATE
-   □ Isolate C2 server
-   □ Issue global panic to all devices
-   □ Rotate all keys
-
-2. ASSESSMENT
-   □ Determine exposure scope
-   □ Identify affected devices
-   □ Check for lateral movement
-
-3. RECOVERY
-   □ Deploy new C2 infrastructure
-   □ Re-provision surviving devices
-   □ Enhanced monitoring
-```
+| Phase | Actions |
+|-------|---------|
+| **Immediate** | Isolate C2 server, issue global panic to all devices, rotate all keys |
+| **Assessment** | Determine exposure scope, identify affected devices, check for lateral movement |
+| **Recovery** | Deploy new C2 infrastructure, re-provision surviving devices, enhanced monitoring |
 
 ### Personnel Compromise
 
-```
-IF operator is detained:
-
-1. IMMEDIATE (team responsibility)
-   □ Assume all devices known
-   □ Panic all devices
-   □ Lawyer contact
-   □ Do NOT attempt recovery
-
-2. ASSESSMENT
-   □ Determine what operator knew
-   □ Identify at-risk infrastructure
-   □ Check for device locations
-
-3. RECOVERY
-   □ Full infrastructure rotation
-   □ New device provisioning
-   □ Changed procedures
-```
+| Phase | Actions |
+|-------|---------|
+| **Immediate** | Assume all devices known, panic all devices, lawyer contact, do NOT attempt recovery |
+| **Assessment** | Determine what operator knew, identify at-risk infrastructure |
+| **Recovery** | Full infrastructure rotation, new device provisioning, changed procedures |
 
 ---
 
@@ -355,49 +228,38 @@ IF operator is detained:
 |-------|-----------|----------|
 | Beacon Miss | 3 consecutive | Check network |
 | Tunnel Change | Fallback activated | Investigate |
+| DNS Fallback | VPN unreachable | Monitor (may be normal) |
 | Panic Triggered | Manual or auto | Document |
 | Anomaly Detected | Unusual traffic | Analyze |
 
 ### Dashboard Metrics
 
-```
-Device: ghost-001
-Status: 🟢 Online
-Uptime: 14 days 3 hours
-Last Beacon: 2 minutes ago
-Tunnel: WireGuard UDP
-Bridge Traffic: 1.2 GB
-Commands Executed: 47
-Network: 192.168.1.0/24
-Gateway: 192.168.1.1
-Clients Seen: 23
-```
+| Metric | Example |
+|--------|---------|
+| Device | ghost-001 |
+| Status | 🟢 Online |
+| Uptime | 14 days 3 hours |
+| Last Beacon | 2 minutes ago |
+| Tunnel | WireGuard UDP / DNS (fallback) |
+| Bridge Traffic | 1.2 GB |
+| Commands Executed | 47 |
+| Network | 192.168.1.0/24 |
 
 ---
 
 ## 🔧 Maintenance Procedures
 
-### Remote Maintenance
+### Remote Commands
 
-```bash
-# Check status
-gb status
-
-# View logs (last 100 lines)
-gb logs -n 100
-
-# Update beacon interval
-gb config set beacon.interval 600
-
-# Force tunnel reconnect
-gb tunnel reconnect
-
-# Clear local logs
-gb stealth wipe-logs
-
-# Reboot device
-gb system reboot
-```
+| Command | Description |
+|---------|-------------|
+| `gb status` | Check device status |
+| `gb logs -n 100` | View last 100 log lines |
+| `gb config set beacon.interval 600` | Update beacon interval |
+| `gb tunnel reconnect` | Force tunnel reconnect |
+| `gb tunnel fallback dns` | Force DNS tunnel mode |
+| `gb stealth wipe-logs` | Clear local logs |
+| `gb system reboot` | Reboot device |
 
 ### Scheduled Tasks
 
@@ -408,29 +270,13 @@ gb system reboot
 | Config backup | Weekly | Recovery capability |
 | Health check | Hourly | Early warning |
 
-### Retrieval Procedures
+### Retrieval Checklist
 
-```
-RETRIEVAL CHECKLIST:
-
-1. Pre-Retrieval
-   □ Confirm device still active
-   □ Plan access method
-   □ Prepare replacement (if needed)
-   □ Have cover story
-
-2. Retrieval
-   □ Access location
-   □ Remove device
-   □ Restore original cabling
-   □ Check for evidence left behind
-
-3. Post-Retrieval
-   □ Extract device logs
-   □ Secure wipe device
-   □ Mark device as retrieved
-   □ Update inventory
-```
+| Phase | Actions |
+|-------|---------|
+| **Pre-Retrieval** | Confirm device active, plan access, prepare replacement, have cover story |
+| **Retrieval** | Access location, remove device, restore original cabling, check for evidence |
+| **Post-Retrieval** | Extract logs, secure wipe device, mark as retrieved, update inventory |
 
 ---
 
@@ -444,53 +290,23 @@ Date: YYYY-MM-DD
 Operator: [Name]
 
 ## Device Status
-| Device | Status | Uptime | Notes |
-|--------|--------|--------|-------|
-| ghost-001 | 🟢 | 14d | Normal |
-| ghost-002 | 🟡 | 3d | Delayed beacons |
+| Device | Status | Uptime | Tunnel | Notes |
+|--------|--------|--------|--------|-------|
+| ghost-001 | 🟢 | 14d | WireGuard | Normal |
+| ghost-002 | 🟡 | 3d | DNS Tunnel | VPN blocked |
 
 ## Activity Summary
 - Commands executed: 12
 - Data collected: 150 MB
+- Tunnel fallbacks: 1
 - Alerts: 0
 
 ## Issues
-- None
+- ghost-002 fell back to DNS tunnel (investigating)
 
 ## Tomorrow's Plan
-- Monitor ghost-002
+- Monitor ghost-002 connectivity
 - Execute network scan on ghost-001
-```
-
-### Incident Report Template
-
-```markdown
-# GhostBridge Incident Report
-Date: YYYY-MM-DD
-Severity: [Critical/High/Medium/Low]
-
-## Summary
-Brief description of incident.
-
-## Timeline
-- HH:MM - Event 1
-- HH:MM - Event 2
-
-## Impact
-What was affected?
-
-## Response
-What actions were taken?
-
-## Root Cause
-Why did this happen?
-
-## Lessons Learned
-What can we improve?
-
-## Action Items
-- [ ] Task 1
-- [ ] Task 2
 ```
 
 ---
@@ -520,6 +336,5 @@ What can we improve?
 
 ---
 
-*GhostBridge Operations Guide v0.1.0*
+*GhostBridge Operations Guide v0.6.0*
 *Classification: Red Team Internal*
-
