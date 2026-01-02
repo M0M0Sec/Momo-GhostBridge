@@ -99,6 +99,15 @@ class MoMoClient:
 
         self._client: httpx.AsyncClient | None = None
 
+    @staticmethod
+    def _get_version() -> str:
+        """Get package version."""
+        try:
+            from ghostbridge import __version__
+            return __version__
+        except ImportError:
+            return "0.6.0"
+
     async def __aenter__(self) -> MoMoClient:
         """Async context manager entry."""
         await self._ensure_client()
@@ -115,7 +124,7 @@ class MoMoClient:
                 timeout=self.timeout,
                 verify=self.verify_ssl,
                 headers={
-                    "User-Agent": "GhostBridge/0.2.0",
+                    "User-Agent": f"GhostBridge/{self._get_version()}",
                     "X-Device-ID": self.device_id,
                 },
             )

@@ -14,6 +14,10 @@
   Invisible Bridge • Reverse VPN • DNS Tunneling • Long-term Persistence
 </p>
 
+> ⚠️ **DEVELOPMENT STATUS**
+> 
+> This project is currently **under active development** and has **not been tested in a live/production environment** yet. Features are being implemented and may change. Use at your own risk and only in authorized test environments. Contributions and feedback are welcome!
+
 <p align="center">
   <a href="https://github.com/Momo-Master/MoMo">MoMo</a> •
   <a href="https://github.com/Momo-Master/MoMo-Nexus">Nexus</a> •

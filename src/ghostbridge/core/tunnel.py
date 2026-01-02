@@ -142,17 +142,18 @@ class TunnelManager:
         )
 
         # Add C2 peer if endpoint is configured
+        # Note: Actual public key should be set via WireGuard config file
+        # or environment variable GHOSTBRIDGE_WG_PEER_PUBKEY
         if tunnel_config.endpoint:
-            # Parse endpoint to extract host:port
-            tunnel_config.endpoint.rsplit(":", 1)
-            endpoint = tunnel_config.endpoint
-
-            wg.add_peer(
-                public_key="<C2_PUBLIC_KEY>",  # Will be replaced from config
-                endpoint=endpoint,
-                allowed_ips=["10.66.66.0/24"],
-                keepalive=tunnel_config.keepalive,
-            )
+            import os
+            peer_pubkey = os.environ.get("GHOSTBRIDGE_WG_PEER_PUBKEY", "")
+            if peer_pubkey:
+                wg.add_peer(
+                    public_key=peer_pubkey,
+                    endpoint=tunnel_config.endpoint,
+                    allowed_ips=["10.66.66.0/24"],
+                    keepalive=tunnel_config.keepalive,
+                )
 
         return wg
 
