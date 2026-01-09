@@ -51,9 +51,10 @@ ghostbridge = "ghostbridge.cli:main"
 gb = "ghostbridge.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/momo/ghostbridge"
-Documentation = "https://github.com/momo/ghostbridge/docs"
-Repository = "https://github.com/momo/ghostbridge"
+Homepage = "https://github.com/M0M0Sec/Momo-GhostBridge"
+Documentation = "https://github.com/M0M0Sec/Momo-GhostBridge/tree/main/docs"
+Repository = "https://github.com/M0M0Sec/Momo-GhostBridge"
+Issues = "https://github.com/M0M0Sec/Momo-GhostBridge/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]

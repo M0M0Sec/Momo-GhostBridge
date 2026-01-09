@@ -6,7 +6,7 @@
 PYTHON := python3
 PIP := pip3
 VENV := .venv
-VERSION := 0.5.0
+VERSION := 0.6.0
 
 # Colors
 GREEN := \033[0;32m
